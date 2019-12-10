@@ -15,12 +15,7 @@ class CheckoutApi extends Controller {
 		$config = $this->app['config']['checkout'];
 		$this->config = $config;
 
-		$subdomain = $config['mode'] === 'production' ? 'www' : 'sandbox';
-
-        $this->checkout = new Endpoint(
-            "https://{$subdomain}.2checkout.com/checkout/api/1/{$config['sellerId']}",
-            $config['privateKey']
-        );
+        $this->checkout = new Endpoint($config);
     }
     
     public function index($order_number = '') {

@@ -6,13 +6,14 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Psr7;
 
 class Endpoint {
-	public $private_key;
+	public $config;
 	private $client;
 
-	public function __construct($base_uri, $private_key) {
-		$this->private_key = $private_key;
+	public function __construct($config) {
+		$this->config = $config;
+		$subdomain = $config['mode'] === 'production' ? 'www' : 'sandbox';
 		$this->client = new Client([
-			'base_uri' => $base_uri
+			'base_uri' => "https://{$subdomain}.2checkout.com/checkout/api/1/{$config['sellerId']}"
 		]);
 	}
 
@@ -24,7 +25,8 @@ class Endpoint {
 	}
 
 	public function post($endpoint = '', $data) {
-		$data['privateKey'] = $this->privateKey;
+		$data['privateKey'] = $this->config['privateKey'];
+		$data['sellerId'] = $this->config['sellerId'];
 		$res = $this->client->request('POST', $endpoint, [
 			'json' => $data
 		]);
