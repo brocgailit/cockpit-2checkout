@@ -25,8 +25,8 @@ class Endpoint {
 	}
 
 	public function post($endpoint = '', $data) {
-		/* $data['privateKey'] = $this->config['privateKey'];
-		$data['sellerId'] = $this->config['sellerId']; */
+		$data['privateKey'] = $this->config['privateKey'];
+		$data['sellerId'] = $this->config['sellerId'];
 		$res = $this->client->request('POST', $endpoint, [
 			'json' => $data
 		]);

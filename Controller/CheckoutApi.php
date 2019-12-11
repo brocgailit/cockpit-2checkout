@@ -7,15 +7,10 @@ use Checkout\Controller\Endpoint;
 
 class CheckoutApi extends Controller {
 	private $checkout;
-	private $config;
 
 	public function __construct($options) {
 		parent::__construct($options);
-
-		$config = $this->app['config']['checkout'];
-		$this->config = $config;
-
-        $this->checkout = new Endpoint($config);
+        $this->checkout = new Endpoint($this->app['config']['checkout']);
     }
     
     public function index() {
