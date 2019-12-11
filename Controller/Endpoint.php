@@ -4,6 +4,7 @@ namespace Checkout\Controller;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7;
+use GuzzleHttp\Exception\ClientException;
 
 class Endpoint {
 	public $config;
@@ -27,10 +28,16 @@ class Endpoint {
 	public function post($endpoint = '', $data) {
 		$data['privateKey'] = $this->config['privateKey'];
 		$data['sellerId'] = $this->config['sellerId'];
-		$res = $this->client->request('POST', $endpoint, [
-			'json' => $data
-		]);
-		return json_decode($res->getBody(), true);
+
+		try {
+			$res = $this->client->request('POST', $endpoint, [
+				'json' => $data
+			]);
+			return json_decode($res->getBody(), true);
+		} catch(ClientException $e) {
+			$response = $e->getResponse();
+			return $response->getBody()->getContents();
+		}
 	}
 
 	public function renderResponse($res, $return_fn) {
