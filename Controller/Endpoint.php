@@ -27,9 +27,6 @@ class Endpoint {
 	public function post($endpoint = '', $data) {
 		$data['privateKey'] = $this->config['privateKey'];
 		$data['sellerId'] = $this->config['sellerId'];
-		$config = $this->config;
-		$subdomain = $config['mode'] === 'production' ? 'www' : 'sandbox';
-		return "https://{$subdomain}.2checkout.com/checkout/api/1/{$config['sellerId']}/";
 		$res = $this->client->request('POST', $endpoint, [
 			'json' => $data
 		]);
