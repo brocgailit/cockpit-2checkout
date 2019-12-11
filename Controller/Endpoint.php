@@ -28,6 +28,10 @@ class Endpoint {
 		$data['privateKey'] = $this->config['privateKey'];
 		$data['sellerId'] = $this->config['sellerId'];
 		$res = $this->client->request('POST', $endpoint, [
+			'headers' => [
+				'Accept' => 'application/json',
+				'Content-Type' => 'application/json'
+			],
 			'json' => $data
 		]);
 		return json_decode($res->getBody(), true);
