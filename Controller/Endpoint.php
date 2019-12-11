@@ -13,7 +13,7 @@ class Endpoint {
 		$this->config = $config;
 		$subdomain = $config['mode'] === 'production' ? 'www' : 'sandbox';
 		$this->client = new Client([
-			'base_uri' => "https://{$subdomain}.2checkout.com/checkout/api/1/{$config['sellerId']}"
+			'base_uri' => "https://{$subdomain}.2checkout.com/checkout/api/1/{$config['sellerId']}/"
 		]);
 	}
 
@@ -28,10 +28,6 @@ class Endpoint {
 		$data['privateKey'] = $this->config['privateKey'];
 		$data['sellerId'] = $this->config['sellerId'];
 		$res = $this->client->request('POST', $endpoint, [
-			'headers' => [
-				'Accept' => 'application/json',
-				'Content-Type' => 'application/json'
-			],
 			'json' => $data
 		]);
 		return json_decode($res->getBody(), true);
