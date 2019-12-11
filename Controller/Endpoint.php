@@ -12,7 +12,6 @@ class Endpoint {
 	public function __construct($config) {
 		$this->config = $config;
 		$subdomain = $config['mode'] === 'production' ? 'www' : 'sandbox';
-		return "https://{$subdomain}.2checkout.com/checkout/api/1/{$config['sellerId']}/";
 		$this->client = new Client([
 			'base_uri' => "https://{$subdomain}.2checkout.com/checkout/api/1/{$config['sellerId']}/"
 		]);
