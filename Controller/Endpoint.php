@@ -38,7 +38,8 @@ class Endpoint {
 					'X-Avangate-Authentication' => "code='{$vendor}' date='{$date}' hash='{$hash}'"
 				]
 			]);
-			return json_decode($res->getBody(), true);
+			return "code='{$vendor}' date='{$date}' hash='{$hash}'";
+			// return json_decode($res->getBody(), true);
 		} catch(ClientException $e) {
 			$response = $e->getResponse();
 			return $response->getBody()->getContents();
