@@ -18,7 +18,27 @@ class TwoCheckoutApi extends Controller {
 	}
 
 	public function ipn() {
-		return $this->checkout->config['secretKey'];
+		$pass = $this->checkout->config['secretKey'];
+		$result = '';
+		$return = '';
+		$signature = $_POST['HASH'];
+		$body = '';
+		ob_start();
+		while(list($key, $val) = each($_POST)){
+			$$key=$val;
+			/* get values */
+			if($key != "HASH"){
+					if(is_array($val)) {
+						$result .= ArrayExpand($val);
+					}	else{
+							$size = strlen(StripSlashes($val));
+							$result .= $size.StripSlashes($val);
+					}
+				}
+		}
+		$body = ob_get_contents();
+		ob_end_flush();
+		return $body;
 	}
 
 	public function orders() {
