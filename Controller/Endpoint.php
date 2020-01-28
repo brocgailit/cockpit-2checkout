@@ -27,10 +27,9 @@ class Endpoint {
 	public function post($endpoint = '', $data) {
 		try {
 			$vendor = $this->config['vendorCode'];
-			$date = gmdate('Y-m-d h:i:s');
+			$date = gmdate('Y-m-d H:i:s');
 			$message = strlen($vendor) . $vendor . strlen($date) + $date;
 			$hash = hash_hmac('md5', $message, $this->config['secretKey']);
-			return "code='{$vendor}' date='{$date}' hash='{$hash}'";
 			$res = $this->client->request('POST', $endpoint, [
 				'json' => $data,
 				'headers' => [
