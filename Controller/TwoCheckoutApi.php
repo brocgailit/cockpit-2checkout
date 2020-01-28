@@ -20,7 +20,8 @@ class TwoCheckoutApi extends Controller {
 	public function orders() {
 		if($this->req_is('post')) {
 			$data = json_decode(file_get_contents('php://input'), true);
-			return $this->checkout->post('orders/', $data);
+			return $data;
+			// return $this->checkout->post('orders/', $data);
 		};
 	}
 
