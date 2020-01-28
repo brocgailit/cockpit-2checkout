@@ -30,6 +30,7 @@ class Endpoint {
 			$date = gmdate('Y-m-d h:i:s');
 			$message = strlen($vendor) . $vendor . strlen($date) + $date;
 			$hash = hash_hmac('md5', $message, $this->config['secretKey']);
+			return "code='{$vendor}' date='{$date}' hash='{$hash}'";
 			$res = $this->client->request('POST', $endpoint, [
 				'json' => $data,
 				'headers' => [
@@ -38,8 +39,7 @@ class Endpoint {
 					'X-Avangate-Authentication' => "code='{$vendor}' date='{$date}' hash='{$hash}'"
 				]
 			]);
-			return "code='{$vendor}' date='{$date}' hash='{$hash}'";
-			// return json_decode($res->getBody(), true);
+			return json_decode($res->getBody(), true);
 		} catch(ClientException $e) {
 			$response = $e->getResponse();
 			return $response->getBody()->getContents();
