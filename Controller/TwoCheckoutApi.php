@@ -17,6 +17,10 @@ class TwoCheckoutApi extends Controller {
 		return 'Authorization Required';
 	}
 
+	public function ipn() {
+		return $this->checkout->config['secretKey'];
+	}
+
 	public function orders() {
 		if($this->req_is('post')) {
 			$data = json_decode(file_get_contents('php://input'), true);
