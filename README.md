@@ -1,12 +1,12 @@
 # Checkout for Cockpit CMS
 
 ## Installation
-Install Cockpit CMS addon by extracting to the addons folder (/addons/Checkout)
+Install Cockpit CMS addon by extracting to the addons folder (/addons/2Checkout)
 
 ### Install Dependencies
 
 ```
-$ cd /addons/Checkout
+$ cd /addons/2Checkout
 $ composer install
 ```
 
@@ -14,7 +14,7 @@ $ composer install
 
 ```
 checkout:
-    privateKey: YOUR_PRIVATE_KEY
+    vendorCode: YOUR_VENDOR_CODE
     sellerId: YOUR_ACCOUNT_ID
-    mode: [sandbox|production] (Default: sandbox)
+    secretKey: YOUR_SECRET_KEY
 ```

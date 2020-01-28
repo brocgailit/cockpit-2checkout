@@ -2,7 +2,7 @@
 
 require __DIR__ . '/vendor/autoload.php';
 
-$name = 'Checkout';
+$name = '2Checkout';
 
 if (!isset($app['modules'][strtolower($name)])) {
     // display a warning on top of admin ui

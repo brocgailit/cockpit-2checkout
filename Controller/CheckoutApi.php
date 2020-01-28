@@ -1,26 +1,26 @@
 <?php
 
-namespace Checkout\Controller;
+namespace TwoCheckout\Controller;
 
 use \LimeExtra\Controller;
-use Checkout\Controller\Endpoint;
+use TwoCheckout\Controller\Endpoint;
 
-class CheckoutApi extends Controller {
+class TwoCheckoutApi extends Controller {
 	private $checkout;
 
 	public function __construct($options) {
 		parent::__construct($options);
-        $this->checkout = new Endpoint($this->app['config']['checkout']);
+        $this->checkout = new Endpoint($this->app['config']['2checkout']);
     }
     
     public function index() {
 		return 'Authorization Required';
 	}
 
-	public function authorize() {
+	public function orders() {
 		if($this->req_is('post')) {
 			$data = json_decode(file_get_contents('php://input'), true);
-			return $this->checkout->post('rs/authService', $data['checkout']);
+			return $this->checkout->post('orders/', $data);
 		};
 	}
 

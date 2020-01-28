@@ -1,5 +1,5 @@
 <?php
 
 $app->on('cockpit.rest.init', function ($routes) {
-  $routes['checkout'] = 'Checkout\\Controller\\CheckoutApi';
+  $routes['checkout'] = 'TwoCheckout\\Controller\\TwoCheckoutApi';
 });

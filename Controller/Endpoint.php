@@ -1,6 +1,6 @@
 <?php
 
-namespace Checkout\Controller;
+namespace TwoCheckout\Controller;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7;
@@ -12,9 +12,8 @@ class Endpoint {
 
 	public function __construct($config) {
 		$this->config = $config;
-		$subdomain = $config['mode'] === 'production' ? 'www' : 'sandbox';
 		$this->client = new Client([
-			'base_uri' => "https://{$subdomain}.2checkout.com/checkout/api/1/{$config['sellerId']}/"
+			'base_uri' => "https://api.2checkout.com/rest/6.0/"
 		]);
 	}
 
@@ -26,12 +25,18 @@ class Endpoint {
 	}
 
 	public function post($endpoint = '', $data) {
-		$data['privateKey'] = $this->config['privateKey'];
-		$data['sellerId'] = $this->config['sellerId'];
-
 		try {
+			$vendor = $this->config['vendorCode'];
+			$date = gmdate('Y-m-d h:i:s');
+			$message = strlen($vendor) . $vendor . strlen($date) + $date;
+			$hash = hash_hmac('md5', $message, $this->config['secretKey']);
 			$res = $this->client->request('POST', $endpoint, [
-				'json' => $data
+				'json' => $data,
+				'headers' => [
+					'Content-Type' => 'application/json',
+					'Accept' => 'application/json',
+					'X-Avangate-Authentication' => "code='{$vendor}' date='{$date}' hash='{$hash}'"
+				]
 			]);
 			return json_decode($res->getBody(), true);
 		} catch(ClientException $e) {
@@ -42,11 +47,11 @@ class Endpoint {
 
 	public function renderResponse($res, $return_fn) {
 
-		$status = $res->requestStatus;
+		/* $status = $res->requestStatus;
 
 		if ( !$status->success ) {
 			return $status;		
-		}
+		} */
 
 		return $return_fn($res);
 	}
