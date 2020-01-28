@@ -38,7 +38,7 @@ class TwoCheckoutApi extends Controller {
 		}
 		$body = ob_get_contents();
 		ob_end_flush();
-		return $body;
+		return 'hello '.$body;
 	}
 
 	public function orders() {
